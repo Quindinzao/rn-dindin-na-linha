@@ -21,7 +21,7 @@ const App: React.FC = () => {
     <View style={[styles.container, backgroundStyle]}>
       <Button title={strings.button_add} onPress={() => setModalVisible(true)} style={styles.buttonClose} />
       <View style={styles.content} />
-      <Form modalVisible={modalVisible} setModalVisible={setModalVisible} firstLabel={strings.expense_name} firstPlaceholder={strings.expense_name_placeholder} secondLabel={strings.amount_disbursed} secondPlaceholder={strings.amount_disbursed} />
+      <Form modalVisible={modalVisible} setModalVisible={setModalVisible} title={strings.add_disbursement} firstLabel={strings.expense_name} firstPlaceholder={strings.expense_name_placeholder} secondLabel={strings.amount_disbursed} secondPlaceholder={strings.amount_disbursed} />
     </View>
   );
 };

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import Svg, { Rect, Path, SvgProps } from 'react-native-svg';
-const Icon = (props: SvgProps) => (
+const IconWhite = (props: SvgProps) => (
   <Svg
     width={52}
     height={52}
     viewBox="0 0 52 52"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <Rect width={52} height={52} fill="black" />
@@ -24,4 +23,4 @@ const Icon = (props: SvgProps) => (
     />
   </Svg>
 );
-export default Icon;
+export default IconWhite;

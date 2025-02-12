@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput as RNTextInput, TextInputProps as RNTextInputProps, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
+  View,
+} from 'react-native';
 
 interface TextInputProps extends RNTextInputProps {
   label: string;
@@ -25,10 +31,10 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#000',
-    fontFamily: 'Inter',
-    fontSize: 18,
+    // fontFamily: 'Inter',
+    fontSize: 15,
     fontStyle: 'normal',
-    fontWeight: '500',
+    fontWeight: '600',
     lineHeight: 20,
     marginBottom: 6,
   },
@@ -43,7 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#000',
     borderWidth: 2,
-    backgroundColor: '#FFF',
+    backgroundColor: '#efefef',
     fontSize: 18,
     fontWeight: '500',
   },

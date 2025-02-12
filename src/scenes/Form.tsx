@@ -1,15 +1,15 @@
 import React from 'react';
 import {
+  Alert,
   Modal,
   StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Alert,
   Text,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
-import Icon from '../assets/svg/Icon';
+import IconWhite from '../assets/svg/IconWhite';
 import strings from '../utils/strings';
 
 interface FormProps {
@@ -31,6 +31,7 @@ const Form: React.FC<FormProps> = ({
   secondLabel,
   secondPlaceholder,
 }) => {
+
   return (
     <Modal
       animationType="slide"
@@ -41,7 +42,7 @@ const Form: React.FC<FormProps> = ({
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
           <View style={styles.header}>
-            <Icon />
+            <IconWhite />
           </View>
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
@@ -61,11 +62,10 @@ const Form: React.FC<FormProps> = ({
 const styles = StyleSheet.create({
   title: {
     color: '#000',
-    fontFamily: 'Inter',
+    // fontFamily: 'Inter',
     fontSize: 28,
     fontStyle: 'normal',
     fontWeight: '600',
-    lineHeight: 28,
     marginTop: 2,
     marginBottom: 28,
   },

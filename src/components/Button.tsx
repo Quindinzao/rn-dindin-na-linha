@@ -1,5 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  GestureResponderEvent,
+} from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -10,7 +15,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ title, onPress, style, textStyle }) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} activeOpacity={0.7}>
       <Text style={[styles.text, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -29,8 +34,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   text: {
-    color: '#FFF',
-    fontFamily: 'Inter',
+    color: '#efefef',
+    // fontFamily: 'Inter',
     fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '700',

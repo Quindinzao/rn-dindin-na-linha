@@ -7,6 +7,7 @@ const strings = {
   amount_disbursed: 'Valor desembolsado:',
   amount_disbursed_placeholder: 'R$ 00,00',
   button_add: 'Adicionar',
+  add_new_cost: 'Adicionar novo gasto',
   add_category: 'Adicionar categoria',
   category_name: 'Nome da categoria:',
   category_name_placeholder: 'Ex: Saúde, alimentação, educação, etc',

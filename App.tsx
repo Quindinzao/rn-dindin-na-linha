@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -14,12 +15,46 @@ const App: React.FC = () => {
   const [modalCategoryVisible, setModalCategoryVisible] = useState(false);
   const [modalDisbursementVisible, setModalDisbursementVisible] = useState(false);
 
+  const items = [
+    { title: 'Item 1', amount: 100, hexColor: '#FF5733' },
+    { title: 'Item 2', amount: 200, hexColor: '#33FF57' },
+    { title: 'Item 3', amount: 300, hexColor: '#FFB700' },
+    { title: 'Item 4', amount: 400, hexColor: '#FF33A1' },
+    { title: 'Item 5', amount: 500, hexColor: '#A133FF' },
+    { title: 'Item 6', amount: 600 },
+    { title: 'Item 7', amount: 700, hexColor: '#FF5733' },
+    { title: 'Item 8', amount: 800, hexColor: '#33FF57' },
+    { title: 'Item 9', amount: 900, hexColor: '#3357FF' },
+    { title: 'Item 10', amount: 1000, hexColor: '#FF33A1' },
+  ];
+
+  const renderItem = ({item}: {
+    item: {
+      title: string,
+      amount: number,
+      hexColor?: string
+    }
+  }) => (
+    <CostItem
+      title={item.title}
+      number={item.amount}
+      backgroundColor={item.hexColor ? item.hexColor : '#909090'}
+    />
+  );
+
   return (
     <View style={styles.container}>
-      <Button title={strings.button_add} onPress={() => setModalCategoryVisible(true)} style={styles.buttonClose} />
       <View style={styles.content}>
         <Text style={styles.title}>{strings.main_title}</Text>
-        <CostItem title={'Gym'} number={0} backgroundColor="#FFB700" />
+        <FlatList
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.title}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatList}
+        />
+
       </View>
       <Form
         modalVisible={modalDisbursementVisible}
@@ -39,6 +74,7 @@ const App: React.FC = () => {
         secondLabel={strings.hex_code}
         secondPlaceholder={strings.hex_code_placeholder}
       />
+      <Button title={strings.add_category} onPress={() => setModalCategoryVisible(true)} style={styles.buttonClose} />
     </View>
   );
 };
@@ -55,6 +91,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 16,
   },
+  flatList: {
+    flexGrow: 1,
+    paddingBottom: 0,
+  },
   title: {
     // fontFamily: 'Inter',
     fontSize: 28,
@@ -65,8 +105,6 @@ const styles = StyleSheet.create({
     marginVertical: 28,
   },
   buttonClose: {
-    position: 'absolute',
-    bottom: 0,
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
   },

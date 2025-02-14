@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 72,
-    padding: 24,
+    paddingHorizontal: 24,
     justifyContent: 'center',
     alignItems: 'flex-start',
     borderRadius: 8,
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '700',
-    lineHeight: 20,
   },
 });
 

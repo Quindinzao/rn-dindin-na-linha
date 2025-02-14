@@ -1,36 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import TextInput from '../components/TextInput';
 import Button from '../components/Button';
-import IconWhite from '../assets/svg/IconWhite';
 import strings from '../utils/strings';
+import Form from './Form';
+import { ItemProps } from '../interfaces/ItemProps';
 
-interface FormProps {
+interface DetailProps {
+  item: ItemProps;
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  title: string;
-  firstLabel: string;
-  firstPlaceholder: string;
-  secondLabel: string
-  secondPlaceholder: string
 }
 
-const Form: React.FC<FormProps> = ({
+const Detail: React.FC<DetailProps> = ({
   modalVisible,
   setModalVisible,
-  title,
-  firstLabel,
-  firstPlaceholder,
-  secondLabel,
-  secondPlaceholder,
+  item,
 }) => {
+
+  const backgroundColorStyle = {backgroundColor: item.hexColor};
+  const [modalDisbursementVisible, setModalDisbursementVisible] = useState<boolean>(false);
 
   return (
     <Modal
@@ -41,20 +35,29 @@ const Form: React.FC<FormProps> = ({
     >
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
-          <View style={styles.header}>
-            <IconWhite />
+          <View style={[styles.header, backgroundColorStyle]}>
+            <Text style={styles.title}>{item.title}</Text>
           </View>
           <TouchableWithoutFeedback>
-            <View style={styles.modalContent}>
-              <Text style={styles.title}>{title}</Text>
-              <TextInput label={firstLabel} placeholder={firstPlaceholder} containerStyle={styles.button} />
-              <TextInput label={secondLabel} placeholder={secondPlaceholder} />
-              <View style={styles.line} />
-              <Button title={strings.button_add} onPress={() => Alert.alert('R')} />
-            </View>
+            <>
+              <View style={styles.modalContent} />
+              <Button style={styles.buttonAdd} title={strings.button_add} onPress={() => setModalDisbursementVisible(true)} />
+            </>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
+
+      {item &&
+        <Form
+          modalVisible={modalDisbursementVisible}
+          setModalVisible={setModalDisbursementVisible}
+          title={strings.add_disbursement}
+          firstLabel={strings.expense_name}
+          firstPlaceholder={strings.expense_name_placeholder}
+          secondLabel={strings.amount_disbursed}
+          secondPlaceholder={strings.amount_disbursed}
+        />
+      }
     </Modal>
   );
 };
@@ -74,9 +77,10 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 84,
-    paddingVertical: 16,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 16,
     borderRadius: 8,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -86,26 +90,17 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#000',
-    // fontFamily: 'Inter',
-    fontSize: 28,
+    fontSize: 18,
     fontStyle: 'normal',
-    fontWeight: '600',
-    marginTop: 2,
-    marginBottom: 28,
+    fontWeight: '500',
+    lineHeight: 18,
   },
-  line: {
-    width: '100%',
-    height: 2,
-    backgroundColor: '#000',
-    marginVertical: 28,
-  },
-  button: {
-    marginBottom: 20,
-  },
-  buttonClose: {
+  buttonAdd: {
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
     position: 'absolute',
     bottom: 0,
   },
 });
 
-export default Form;
+export default Detail;

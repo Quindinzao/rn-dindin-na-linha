@@ -9,36 +9,29 @@ import Button from './src/components/Button';
 import Form from './src/scenes/Form';
 import strings from './src/utils/strings';
 import CostItem from './src/components/CostItem';
+import Detail from './src/scenes/Detail';
+import { ItemProps } from './src/interfaces/ItemProps';
 
 const App: React.FC = () => {
 
-  const [modalCategoryVisible, setModalCategoryVisible] = useState(false);
-  const [modalDisbursementVisible, setModalDisbursementVisible] = useState(false);
+  const [item, setItem] = useState<ItemProps>();
+  const [modalItemVisible, setModalItemVisible] = useState<boolean>(false);
+  const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
   const items = [
-    { title: 'Item 1', amount: 100, hexColor: '#FF5733' },
-    { title: 'Item 2', amount: 200, hexColor: '#33FF57' },
-    { title: 'Item 3', amount: 300, hexColor: '#FFB700' },
-    { title: 'Item 4', amount: 400, hexColor: '#FF33A1' },
-    { title: 'Item 5', amount: 500, hexColor: '#A133FF' },
-    { title: 'Item 6', amount: 600 },
-    { title: 'Item 7', amount: 700, hexColor: '#FF5733' },
-    { title: 'Item 8', amount: 800, hexColor: '#33FF57' },
-    { title: 'Item 9', amount: 900, hexColor: '#3357FF' },
-    { title: 'Item 10', amount: 1000, hexColor: '#FF33A1' },
+    { title: 'Gym', amount: 100, hexColor: '#FFB700' },
+    { title: 'Item 2', amount: 200, hexColor: '#F13B81' },
+    { title: 'Item 3', amount: 300, hexColor: '#00A2CF' },
+    { title: 'Item 4', amount: 400, hexColor: '#2BD434' },
   ];
 
-  const renderItem = ({item}: {
-    item: {
-      title: string,
-      amount: number,
-      hexColor?: string
-    }
+  const renderItem = ({item: listItem}: {
+    item: ItemProps
   }) => (
     <CostItem
-      title={item.title}
-      number={item.amount}
-      backgroundColor={item.hexColor ? item.hexColor : '#909090'}
+      item={listItem}
+      setItem={setItem}
+      setModalVisible={setModalItemVisible}
     />
   );
 
@@ -49,22 +42,13 @@ const App: React.FC = () => {
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={(item) => item.title}
+          keyExtractor={(listItem) => listItem.title}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.flatList}
         />
 
       </View>
-      <Form
-        modalVisible={modalDisbursementVisible}
-        setModalVisible={setModalDisbursementVisible}
-        title={strings.add_disbursement}
-        firstLabel={strings.expense_name}
-        firstPlaceholder={strings.expense_name_placeholder}
-        secondLabel={strings.amount_disbursed}
-        secondPlaceholder={strings.amount_disbursed}
-      />
       <Form
         modalVisible={modalCategoryVisible}
         setModalVisible={setModalCategoryVisible}
@@ -74,7 +58,14 @@ const App: React.FC = () => {
         secondLabel={strings.hex_code}
         secondPlaceholder={strings.hex_code_placeholder}
       />
-      <Button title={strings.add_category} onPress={() => setModalCategoryVisible(true)} style={styles.buttonClose} />
+      {item &&
+        <Detail
+          item={item}
+          modalVisible={modalItemVisible}
+          setModalVisible={setModalItemVisible}
+        />
+      }
+      <Button title={strings.add_category} onPress={() => setModalCategoryVisible(true)} style={styles.buttonAddCategory} />
     </View>
   );
 };
@@ -104,7 +95,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginVertical: 28,
   },
-  buttonClose: {
+  buttonAddCategory: {
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
   },

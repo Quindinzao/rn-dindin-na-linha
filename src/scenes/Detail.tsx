@@ -37,6 +37,10 @@ const Detail: React.FC<DetailProps> = ({
         <View style={styles.modalContainer}>
           <View style={[styles.header, backgroundColorStyle]}>
             <Text style={styles.title}>{item.title}</Text>
+            <View style={styles.headerAmountContainer}>
+              <Text style={styles.textCurrency}>R$</Text>
+              <Text style={styles.textAmount}>{item.amount}</Text>
+            </View>
           </View>
           <TouchableWithoutFeedback>
             <>
@@ -94,6 +98,28 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '500',
     lineHeight: 18,
+  },
+  headerAmountContainer: {
+    height: 54,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    borderRadius: 8,
+    backgroundColor: '#FFF',
+  },
+  textAmount: {
+    height: 28,
+    color: '#000',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  textCurrency: {
+    height: 20,
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '400',
   },
   buttonAdd: {
     borderBottomRightRadius: 0,

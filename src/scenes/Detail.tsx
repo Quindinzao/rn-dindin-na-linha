@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
     position: 'absolute',
-    bottom: 0,
+    bottom: -1,
   },
   flatList: {
     width: '100%',

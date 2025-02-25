@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-    backgroundColor: '#E5E5E5',
+    backgroundColor: '#FFF',
   },
   content: {
     flex: 1,

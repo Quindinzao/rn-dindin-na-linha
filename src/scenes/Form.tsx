@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import TextInput from '../components/TextInput';
 import Button from '../components/Button';
-import IconWhite from '../assets/svg/IconWhite';
+import IconLogo from '../assets/svg/IconLogo';
 import strings from '../utils/strings';
 
 interface FormProps {
@@ -42,7 +42,7 @@ const Form: React.FC<FormProps> = ({
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
           <View style={styles.header}>
-            <IconWhite />
+            <IconLogo />
           </View>
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>

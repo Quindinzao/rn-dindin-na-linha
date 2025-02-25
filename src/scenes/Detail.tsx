@@ -25,8 +25,9 @@ const Detail: React.FC<DetailProps> = ({
   itemObj,
 }) => {
 
-  const backgroundColorStyle = {backgroundColor: itemObj.hexColor};
   const [modalDisbursementVisible, setModalDisbursementVisible] = useState<boolean>(false);
+  // const [itemEdit, setItemEdit] = useState<{title: string, amount: number}>({title: '', amount: 0});
+  const backgroundColorStyle = {backgroundColor: itemObj.hexColor};
   const colorObj = itemObj.hexColor || '#c5c5c5';
 
   const renderItem = ({ item }: {
@@ -36,6 +37,7 @@ const Detail: React.FC<DetailProps> = ({
       title={item.title}
       amount={item.amount}
       hexColor={colorObj}
+      // setItemEdit={setItemEdit}
     />
   );
 
@@ -56,7 +58,7 @@ const Detail: React.FC<DetailProps> = ({
             </View>
           </View>
           <TouchableWithoutFeedback>
-            <>
+            <View style={styles.wrapper}>
               <View style={styles.modalContent}>
                 <FlatList
                   data={itemObj.expenses}
@@ -73,7 +75,7 @@ const Detail: React.FC<DetailProps> = ({
                 title={strings.button_add}
                 onPress={() => setModalDisbursementVisible(true)}
               />
-            </>
+            </View>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
@@ -104,6 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     padding: 20,
+  },
+  wrapper: {
+    backgroundColor: '#FFF',
   },
   header: {
     width: '100%',

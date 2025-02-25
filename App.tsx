@@ -8,7 +8,7 @@ import {
 import Button from './src/components/Button';
 import Form from './src/scenes/Form';
 import strings from './src/utils/strings';
-import CostItem from './src/components/CostItem';
+import CategoryCostItem from './src/components/CategoryCostItem';
 import Detail from './src/scenes/Detail';
 import { ItemProps } from './src/interfaces/ItemProps';
 
@@ -19,7 +19,11 @@ const App: React.FC = () => {
   const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
   const items = [
-    { title: 'Gym', amount: 100, hexColor: '#FFB700' },
+    { title: 'Gym', amount: 280.09, hexColor: '#FFB700', expenses: [
+      { title: 'Mensalidade', amount: 100.20 },
+      { title: 'Creatina', amount: 109.99 },
+      { title: 'Whey', amount: 69.90 },
+    ] },
     { title: 'Item 2', amount: 200, hexColor: '#F13B81' },
     { title: 'Item 3', amount: 300, hexColor: '#00A2CF' },
     { title: 'Item 4', amount: 400, hexColor: '#2BD434' },
@@ -28,7 +32,7 @@ const App: React.FC = () => {
   const renderItem = ({item: listItem}: {
     item: ItemProps
   }) => (
-    <CostItem
+    <CategoryCostItem
       item={listItem}
       setItem={setItem}
       setModalVisible={setModalItemVisible}
@@ -47,7 +51,6 @@ const App: React.FC = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.flatList}
         />
-
       </View>
       <Form
         modalVisible={modalCategoryVisible}
@@ -60,7 +63,7 @@ const App: React.FC = () => {
       />
       {item &&
         <Detail
-          item={item}
+          itemObj={item}
           modalVisible={modalItemVisible}
           setModalVisible={setModalItemVisible}
         />

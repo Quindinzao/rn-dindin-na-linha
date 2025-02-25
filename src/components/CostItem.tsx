@@ -1,33 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { ItemProps } from '../interfaces/ItemProps';
+import { View, Text, StyleSheet } from 'react-native';
 
-
-
-interface CostItemProps {
-  item: ItemProps;
-  setItem: React.Dispatch<React.SetStateAction<ItemProps | undefined>>;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const CostItem: React.FC<CostItemProps> = ({
-  item,
-  setItem,
-  setModalVisible,
+const CostItem: React.FC<{title: string, amount: number, hexColor: string}> = ({
+  title,
+  amount,
+  hexColor,
 }) => {
 
-  const handleSelectItem = () => {
-    setItem(item);
-    setModalVisible(true);
-  };
+  const amountFormatted = amount.toString().split('.')[0];
+  const centsFormatted = amount.toString().split('.')[1].length === 1 ? amount.toString().split('.')[1] + '0' : amount.toString().split('.')[1];
 
   return (
-    <TouchableOpacity style={[styles.container, { backgroundColor: item.hexColor || '#c5c5c5' }]} activeOpacity={0.7} onPress={handleSelectItem}>
-      <Text style={styles.title}>{item.title}</Text>
-      <View>
-        <Text style={styles.amount}>{item.amount}</Text>
+    <View style={[styles.container, { borderColor: hexColor || '#c5c5c5' }]}>
+      <Text style={styles.title}>{title}</Text>
+      <View style={[styles.amountContainer, { backgroundColor: hexColor || '#c5c5c5' }]}>
+        <Text style={styles.symbol}>R$</Text>
+        <View style={styles.row}>
+          <Text style={styles.amount}>{amountFormatted}</Text>
+          {centsFormatted && <Text style={styles.cents}>,{centsFormatted}</Text>}
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -41,14 +34,50 @@ const styles = StyleSheet.create({
     height: 84,
     padding: 16,
     marginVertical: 6,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    backgroundColor: '#FFF',
   },
   title: {
+    color: '#000',
+    fontSize: 18,
+    fontStyle: 'normal',
+    fontWeight: '500',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  amountContainer: {
+    width: 78,
+    height: 84,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: -1,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    paddingBottom: 6,
+  },
+  symbol: {
+    color: '#000',
+    textAlign: 'center',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontStyle: 'normal',
+    fontWeight: '400',
   },
   amount: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: '#000',
+    fontSize: 24,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    lineHeight: 22,
+  },
+  cents: {
+    color: '#000',
+    fontSize: 12,
+    fontStyle: 'normal',
+    fontWeight: '400',
   },
 });
 

@@ -23,17 +23,16 @@ const App: React.FC = () => {
   const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
   const handleAddCategory = async (title: string, hexColor: string) => {
-    Alert.alert('handleAddCategory');
     const value = { title, hexColor, amount: 0 };
-    // const newValueString = JSON.stringify(value);
     setItems([...items, value]);
     setModalCategoryVisible(false);
     try {
-      await AsyncStorage.setItem('meus-gastos', items.toString());
+        // Armazenando como JSON
+        await AsyncStorage.setItem('meus-gastos', JSON.stringify([...items, value]));
     } catch (e) {
-      Alert.alert('Erro', 'Erro ao salvar a categoria');
+        Alert.alert('Erro', 'Erro ao salvar a categoria');
     }
-  };
+};
 
   const handleDeleteAll = async () => {
     Alert.alert('handleDeleteAll');
@@ -47,19 +46,20 @@ const App: React.FC = () => {
   };
 
   const getData = async () => {
-    Alert.alert('getData');
     try {
-      const value = await AsyncStorage.getItem('meus-gastos');
-      if (value === null) {
-        await AsyncStorage.setItem('meus-gastos', '[]');
-      }
-      if (value !== null) {
-        setItems(JSON.parse(value));
-      }
+        const value = await AsyncStorage.getItem('meus-gastos');
+        if (value === null) {
+            await AsyncStorage.setItem('meus-gastos', JSON.stringify([])); // Armazenar um array vazio por padrão
+            setItems([]); // Defina um array vazio
+        } else {
+            // Certifique-se de fazer o parse corretamente
+            const parsedData = JSON.parse(value);
+            setItems(parsedData);
+        }
     } catch (e) {
-      Alert.alert('Erro', 'Erro ao ler os dados');
+        Alert.alert('Erro', 'Erro ao ler os dados');
     }
-  };
+};
 
   useEffect(() => {
     getData();

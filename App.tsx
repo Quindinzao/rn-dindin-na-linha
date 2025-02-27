@@ -24,8 +24,7 @@ const App: React.FC = () => {
   const [modalItemVisible, setModalItemVisible] = useState<boolean>(false);
   const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
-  const addDiscursementToStorage = async () => {
-    Alert.alert('newExpenses: ', JSON.stringify(items));
+  const addDisbursementToStorage = async () => {
     try {
       await AsyncStorage.setItem('meus-gastos', JSON.stringify(items));
     } catch (e) {
@@ -45,7 +44,7 @@ const App: React.FC = () => {
       updatedItems[itemToEditIndex].expenses.push({ title, amount: newAmount });
       updatedItems[itemToEditIndex].amount = totalAmount;
       setItems(updatedItems);
-      addDiscursementToStorage();
+      addDisbursementToStorage();
     } else {
       Alert.alert(strings.error, strings.not_found);
     }

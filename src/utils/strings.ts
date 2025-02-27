@@ -59,6 +59,7 @@ const strings = {
   no_data_to_display: 'Nenhum dado para exibir',
   no_categories_to_display: 'Nenhuma categoria para exibir',
   no_disbursements_to_display: 'Nenhum desembolso para exibir',
+  not_found: 'Item não encontrado',
 };
 
 export default strings;

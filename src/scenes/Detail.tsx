@@ -17,18 +17,18 @@ interface DetailProps {
   itemObj: ItemProps;
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  onPress: (title: string, amount: string) => void;
 }
 
 const Detail: React.FC<DetailProps> = ({
   modalVisible,
   setModalVisible,
   itemObj,
+  onPress,
 }) => {
 
   const [modalDisbursementVisible, setModalDisbursementVisible] = useState<boolean>(false);
-  // const [itemEdit, setItemEdit] = useState<{title: string, amount: number}>({title: '', amount: 0});
-  const backgroundColorStyle = {backgroundColor: itemObj.hexColor};
-  const colorObj = itemObj.hexColor || '#c5c5c5';
+  const hexColorObj = itemObj.hexColor || '#c5c5c5';
 
   const renderItem = ({ item }: {
     item: { title: string, amount: number }
@@ -36,8 +36,7 @@ const Detail: React.FC<DetailProps> = ({
     <CostItem
       title={item.title}
       amount={item.amount}
-      hexColor={colorObj}
-      // setItemEdit={setItemEdit}
+      hexColor={hexColorObj}
     />
   );
 
@@ -50,7 +49,7 @@ const Detail: React.FC<DetailProps> = ({
     >
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
-          <View style={[styles.header, backgroundColorStyle]}>
+          <View style={[styles.header, {backgroundColor: hexColorObj}]}>
             <Text style={styles.title}>{itemObj.title}</Text>
             <View style={styles.headerAmountContainer}>
               <Text style={styles.textCurrency}>R$ </Text>
@@ -89,7 +88,7 @@ const Detail: React.FC<DetailProps> = ({
           firstPlaceholder={strings.expense_name_placeholder}
           secondLabel={strings.amount_disbursed}
           secondPlaceholder={strings.amount_disbursed}
-          onPress={() => console.log('Add disbursement')}
+          onPress={onPress}
         />
       }
     </Modal>
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   textCurrency: {
-    height: 20,
+    height: 20.5,
     color: '#000',
     fontSize: 16,
     fontWeight: '400',

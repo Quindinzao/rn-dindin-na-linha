@@ -24,8 +24,35 @@ const App: React.FC = () => {
   const [modalItemVisible, setModalItemVisible] = useState<boolean>(false);
   const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
+  const addDiscursementToStorage = async () => {
+    Alert.alert('newExpenses: ', JSON.stringify(items));
+    try {
+      await AsyncStorage.setItem('meus-gastos', JSON.stringify(items));
+    } catch (e) {
+      Alert.alert(strings.error, strings.error_add_category);
+    }
+  };
+
+  const handleAddDisbursement = (title: string, amount: string) => {
+    const newAmount = parseFloat(amount);
+    const itemToEditIndex = item ? items.findIndex((oldItem: ItemProps) => oldItem.title === item.title) : -1;
+
+    if (itemToEditIndex !== -1) {
+      const updatedItems = [...items];
+      const totalAmount = updatedItems[itemToEditIndex].expenses.reduce((accumulator, currentItem) => {
+        return accumulator + currentItem.amount;
+      }, 0);
+      updatedItems[itemToEditIndex].expenses.push({ title, amount: newAmount });
+      updatedItems[itemToEditIndex].amount = totalAmount;
+      setItems(updatedItems);
+      addDiscursementToStorage();
+    } else {
+      Alert.alert(strings.error, strings.not_found);
+    }
+  };
+
   const handleAddCategory = async (title: string, hexColor: string) => {
-    const value = { title, hexColor, amount: 0 };
+    const value = { title, hexColor, amount: 0, expenses: [] };
     setItems([...items, value]);
     setModalCategoryVisible(false);
     try {
@@ -77,10 +104,6 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
   const renderItem = ({item: listItem}: {
     item: ItemProps
   }) => (
@@ -91,12 +114,18 @@ const App: React.FC = () => {
     />
   );
 
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.title}>{strings.main_title}</Text>
-          <TouchableOpacity activeOpacity={0.6} onPress={isDeleteAll}><IconDelete /></TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.6} onPress={isDeleteAll}>
+            <IconDelete />
+          </TouchableOpacity>
         </View>
         <FlatList
           data={items}
@@ -122,6 +151,9 @@ const App: React.FC = () => {
           itemObj={item}
           modalVisible={modalItemVisible}
           setModalVisible={setModalItemVisible}
+          // allItems={items}
+          // setAllItems={setItems}
+          onPress={handleAddDisbursement}
         />
       }
       <Button

@@ -24,7 +24,7 @@ const CategoryCostItem: React.FC<CategoryCostItemProps> = ({
       <Text style={styles.title}>{item.title}</Text>
       <View style={styles.amountContainer}>
         <Text style={styles.symbol}>R$</Text>
-        <Text style={styles.amount}>{item.amount.toString().split('.')[0]}</Text>
+        <Text style={styles.amount}>{JSON.stringify(item.amount).split('.')[0]}</Text>
       </View>
     </TouchableOpacity>
   );

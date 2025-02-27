@@ -2,7 +2,7 @@ export interface ItemProps {
   title: string;
   amount: number;
   hexColor: string;
-  expenses?: {
+  expenses: {
     title: string;
     amount: number;
   }[];

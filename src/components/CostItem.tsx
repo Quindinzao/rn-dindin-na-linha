@@ -3,31 +3,27 @@ import {
   View,
   Text,
   StyleSheet,
-  // TouchableOpacity
 } from 'react-native';
-// import IconEdit from '../assets/svg/IconEdit';
 
 const CostItem: React.FC<{
   title: string,
   amount: number,
   hexColor: string,
-  // setItemEdit: React.Dispatch<React.SetStateAction<{title: string, amount: number}>>
 }> = ({
   title,
   amount,
   hexColor,
-  // setItemEdit,
 }) => {
 
-  const amountSplitted = amount.toString().split('.');
+  const amountSplitted = amount.toFixed(2).toString().split('.');
   const amountFormatted = amountSplitted[0];
   const centsFormatted = amountSplitted[1].length === 1 ? amountSplitted[1] + '0' : amountSplitted[1];
+  const newHexColor = hexColor ? hexColor : '#c5c5c5';
 
   return (
-    <View style={[styles.container, { borderColor: hexColor || '#c5c5c5' }]}>
+    <View style={[styles.container, {borderColor: newHexColor}]}>
       <Text style={styles.title}>{title}</Text>
-      {/* <TouchableOpacity activeOpacity={0.7} style={styles.editButton} onPress={() => setItemEdit({title, amount})}><IconEdit width={32} height={32} /></TouchableOpacity> */}
-      <View style={[styles.amountContainer, { backgroundColor: hexColor || '#c5c5c5' }]}>
+      <View style={[styles.amountContainer, {backgroundColor: newHexColor}]}>
         <Text style={styles.symbol}>R$</Text>
         <View style={styles.row}>
           <Text style={styles.amount}>{amountFormatted}</Text>

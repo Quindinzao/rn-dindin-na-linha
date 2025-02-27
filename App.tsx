@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   FlatList,
   StyleSheet,
   Text,
@@ -11,23 +13,57 @@ import strings from './src/utils/strings';
 import CategoryCostItem from './src/components/CategoryCostItem';
 import Detail from './src/scenes/Detail';
 import { ItemProps } from './src/interfaces/ItemProps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App: React.FC = () => {
 
   const [item, setItem] = useState<ItemProps>();
+  const [items, setItems] = useState<ItemProps[]>([]);
   const [modalItemVisible, setModalItemVisible] = useState<boolean>(false);
   const [modalCategoryVisible, setModalCategoryVisible] = useState<boolean>(false);
 
-  const items = [
-    { title: 'Gym', amount: 280.09, hexColor: '#FFB700', expenses: [
-      { title: 'Mensalidade', amount: 100.20 },
-      { title: 'Creatina', amount: 109.99 },
-      { title: 'Whey', amount: 69.90 },
-    ] },
-    { title: 'Item 2', amount: 200, hexColor: '#F13B81' },
-    { title: 'Item 3', amount: 300, hexColor: '#00A2CF' },
-    { title: 'Item 4', amount: 400, hexColor: '#2BD434' },
-  ];
+  const handleAddCategory = async (title: string, hexColor: string) => {
+    Alert.alert('handleAddCategory');
+    const value = { title, hexColor, amount: 0 };
+    // const newValueString = JSON.stringify(value);
+    setItems([...items, value]);
+    setModalCategoryVisible(false);
+    try {
+      await AsyncStorage.setItem('meus-gastos', items.toString());
+    } catch (e) {
+      Alert.alert('Erro', 'Erro ao salvar a categoria');
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    Alert.alert('handleDeleteAll');
+    try {
+      await AsyncStorage.removeItem('meus-gastos');
+      setItems([]);
+      Alert.alert('Sucesso', 'Dados deletados com sucesso');
+    } catch (e) {
+      Alert.alert('Erro', 'Erro ao deletar os dados');
+    }
+  };
+
+  const getData = async () => {
+    Alert.alert('getData');
+    try {
+      const value = await AsyncStorage.getItem('meus-gastos');
+      if (value === null) {
+        await AsyncStorage.setItem('meus-gastos', '[]');
+      }
+      if (value !== null) {
+        setItems(JSON.parse(value));
+      }
+    } catch (e) {
+      Alert.alert('Erro', 'Erro ao ler os dados');
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const renderItem = ({item: listItem}: {
     item: ItemProps
@@ -60,6 +96,7 @@ const App: React.FC = () => {
         firstPlaceholder={strings.category_name_placeholder}
         secondLabel={strings.hex_code}
         secondPlaceholder={strings.hex_code_placeholder}
+        onPress={handleAddCategory}
       />
       {item &&
         <Detail
@@ -68,7 +105,16 @@ const App: React.FC = () => {
           setModalVisible={setModalItemVisible}
         />
       }
-      <Button title={strings.add_category} onPress={() => setModalCategoryVisible(true)} style={styles.buttonAddCategory} />
+      <Button
+        title={'Deletar tudo'}
+        onPress={handleDeleteAll}
+        style={styles.buttonAddCategory}
+      />
+      <Button
+        title={strings.add_category}
+        onPress={() => setModalCategoryVisible(true)}
+        style={styles.buttonAddCategory}
+      />
     </View>
   );
 };

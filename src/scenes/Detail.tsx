@@ -89,6 +89,7 @@ const Detail: React.FC<DetailProps> = ({
           firstPlaceholder={strings.expense_name_placeholder}
           secondLabel={strings.amount_disbursed}
           secondPlaceholder={strings.amount_disbursed}
+          onPress={() => console.log('Add disbursement')}
         />
       }
     </Modal>

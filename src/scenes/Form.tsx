@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Alert,
   Modal,
   StyleSheet,
   Text,
@@ -18,8 +17,9 @@ interface FormProps {
   title: string;
   firstLabel: string;
   firstPlaceholder: string;
-  secondLabel: string
-  secondPlaceholder: string
+  secondLabel: string;
+  secondPlaceholder: string;
+  onPress: (firstValue: string, secondValue: string) => void;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -30,7 +30,11 @@ const Form: React.FC<FormProps> = ({
   firstPlaceholder,
   secondLabel,
   secondPlaceholder,
+  onPress,
 }) => {
+
+  const [firstValue, setFirstValue] = useState<string>('');
+  const [secondValue, setSecondValue] = useState<string>('');
 
   return (
     <Modal
@@ -47,10 +51,10 @@ const Form: React.FC<FormProps> = ({
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
               <Text style={styles.title}>{title}</Text>
-              <TextInput label={firstLabel} placeholder={firstPlaceholder} containerStyle={styles.button} />
-              <TextInput label={secondLabel} placeholder={secondPlaceholder} />
+              <TextInput label={firstLabel} placeholder={firstPlaceholder} containerStyle={styles.button} onChangeText={(text: string) => setFirstValue(text)} />
+              <TextInput label={secondLabel} placeholder={secondPlaceholder} onChangeText={(text: string) => setSecondValue(text)} />
               <View style={styles.line} />
-              <Button title={strings.button_add} onPress={() => Alert.alert('R')} />
+              <Button title={strings.button_add} onPress={() => onPress(firstValue, secondValue)} />
             </View>
           </TouchableWithoutFeedback>
         </View>

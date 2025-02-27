@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Button from './src/components/Button';
@@ -14,6 +15,7 @@ import CategoryCostItem from './src/components/CategoryCostItem';
 import Detail from './src/scenes/Detail';
 import { ItemProps } from './src/interfaces/ItemProps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import IconDelete from './src/assets/svg/IconDelete';
 
 const App: React.FC = () => {
 
@@ -27,39 +29,53 @@ const App: React.FC = () => {
     setItems([...items, value]);
     setModalCategoryVisible(false);
     try {
-        // Armazenando como JSON
-        await AsyncStorage.setItem('meus-gastos', JSON.stringify([...items, value]));
+      await AsyncStorage.setItem('meus-gastos', JSON.stringify([...items, value]));
     } catch (e) {
-        Alert.alert('Erro', 'Erro ao salvar a categoria');
+      Alert.alert(strings.error, strings.error_add_category);
     }
-};
+  };
 
   const handleDeleteAll = async () => {
-    Alert.alert('handleDeleteAll');
     try {
       await AsyncStorage.removeItem('meus-gastos');
       setItems([]);
-      Alert.alert('Sucesso', 'Dados deletados com sucesso');
+      Alert.alert(strings.success, strings.success_delete_all);
     } catch (e) {
-      Alert.alert('Erro', 'Erro ao deletar os dados');
+      Alert.alert(strings.error, strings.error_delete_all);
     }
+  };
+
+  const isDeleteAll = () => {
+    Alert.alert(
+      strings.delete_all, strings.confirm_delete_all,
+      [
+        {
+          text: strings.cancel,
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: strings.delete,
+          onPress: () => handleDeleteAll(),
+        },
+      ],
+    );
   };
 
   const getData = async () => {
     try {
-        const value = await AsyncStorage.getItem('meus-gastos');
-        if (value === null) {
-            await AsyncStorage.setItem('meus-gastos', JSON.stringify([])); // Armazenar um array vazio por padrão
-            setItems([]); // Defina um array vazio
-        } else {
-            // Certifique-se de fazer o parse corretamente
-            const parsedData = JSON.parse(value);
-            setItems(parsedData);
-        }
+      const value = await AsyncStorage.getItem('meus-gastos');
+      if (value === null) {
+        await AsyncStorage.setItem('meus-gastos', JSON.stringify([]));
+        setItems([]);
+      } else {
+        const parsedData = JSON.parse(value);
+        setItems(parsedData);
+      }
     } catch (e) {
-        Alert.alert('Erro', 'Erro ao ler os dados');
+      Alert.alert(strings.error, strings.error_read_data);
     }
-};
+  };
 
   useEffect(() => {
     getData();
@@ -78,7 +94,10 @@ const App: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>{strings.main_title}</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>{strings.main_title}</Text>
+          <TouchableOpacity activeOpacity={0.6} onPress={isDeleteAll}><IconDelete /></TouchableOpacity>
+        </View>
         <FlatList
           data={items}
           renderItem={renderItem}
@@ -106,11 +125,6 @@ const App: React.FC = () => {
         />
       }
       <Button
-        title={'Deletar tudo'}
-        onPress={handleDeleteAll}
-        style={styles.buttonAddCategory}
-      />
-      <Button
         title={strings.add_category}
         onPress={() => setModalCategoryVisible(true)}
         style={styles.buttonAddCategory}
@@ -130,6 +144,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginHorizontal: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
   },
   flatList: {
     flexGrow: 1,

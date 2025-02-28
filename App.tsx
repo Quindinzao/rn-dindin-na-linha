@@ -38,10 +38,10 @@ const App: React.FC = () => {
 
     if (itemToEditIndex !== -1) {
       const updatedItems = [...items];
+      updatedItems[itemToEditIndex].expenses.push({ title, amount: newAmount });
       const totalAmount = updatedItems[itemToEditIndex].expenses.reduce((accumulator, currentItem) => {
         return accumulator + currentItem.amount;
       }, 0);
-      updatedItems[itemToEditIndex].expenses.push({ title, amount: newAmount });
       updatedItems[itemToEditIndex].amount = totalAmount;
       setItems(updatedItems);
       addDisbursementToStorage();

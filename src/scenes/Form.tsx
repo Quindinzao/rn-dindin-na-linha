@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   Modal,
   StyleSheet,
   Text,
@@ -36,6 +37,17 @@ const Form: React.FC<FormProps> = ({
   const [firstValue, setFirstValue] = useState<string>('');
   const [secondValue, setSecondValue] = useState<string>('');
 
+  const handleButtonPressed = () => {
+    if (firstValue.trim() && secondValue.trim()) {
+      onPress(firstValue.trim(), secondValue.trim());
+      setFirstValue('');
+      setSecondValue('');
+      setModalVisible(false);
+    } else {
+      Alert.alert(strings.null_title, strings.null_message);
+    }
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -51,10 +63,19 @@ const Form: React.FC<FormProps> = ({
           <TouchableWithoutFeedback>
             <View style={styles.modalContent}>
               <Text style={styles.title}>{title}</Text>
-              <TextInput label={firstLabel} placeholder={firstPlaceholder} containerStyle={styles.button} onChangeText={(text: string) => setFirstValue(text)} />
-              <TextInput label={secondLabel} placeholder={secondPlaceholder} onChangeText={(text: string) => setSecondValue(text)} />
+              <TextInput
+                label={firstLabel}
+                placeholder={firstPlaceholder}
+                containerStyle={styles.button}
+                onChangeText={(text: string) => setFirstValue(text)}
+              />
+              <TextInput
+                label={secondLabel}
+                placeholder={secondPlaceholder}
+                onChangeText={(text: string) => setSecondValue(text)}
+              />
               <View style={styles.line} />
-              <Button title={strings.button_add} onPress={() => onPress(firstValue, secondValue)} />
+              <Button title={strings.button_add} onPress={handleButtonPressed} />
             </View>
           </TouchableWithoutFeedback>
         </View>

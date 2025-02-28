@@ -60,6 +60,8 @@ const strings = {
   no_categories_to_display: 'Nenhuma categoria para exibir',
   no_disbursements_to_display: 'Nenhum desembolso para exibir',
   not_found: 'Item não encontrado',
+  null_title: 'Campo vazio',
+  null_message: 'Preencha todos os campos antes de prosseguir',
 };
 
 export default strings;
